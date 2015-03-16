@@ -6,8 +6,9 @@
 class sabnzbd::defaults {
   case $::osfamily {
     'Debian': {
-      $package_name = 'sabnzbd'
-      $service_name = 'sabnzbd'
+      $package_name = [ 'sabnzbdplus', 'sabnzbdplus-theme-modile']
+      $service_name = 'sabnzbdplus'
+      $repo = 'ppa:jcfp/ppa'
     }
     'RedHat': {
       $package_name = 'sabnzbd'
