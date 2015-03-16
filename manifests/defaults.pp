@@ -9,9 +9,28 @@ class sabnzbd::defaults {
       $package_name = 'sabnzbd'
       $service_name = 'sabnzbd'
     }
-    'RedHat', 'Suse': {
+    'RedHat': {
       $package_name = 'sabnzbd'
       $service_name = 'sabnzbd'
+      $repo         = [
+        join(['https:','','dl.dropboxusercontent.com','u',
+          '14500830','SABnzbd','RHEL-CentOS', $::os_maj_version],','),
+        join([ 'http:','','dl.fedoraproject.org','pub','epel',
+          $::os_maj_version,$::architecture ],','),
+        join([ 'http:','','packages.atrpms.net','dist',
+          "el${::os_maj_version}",'unrar','' ],',')
+      ]
+    }
+    'Suse': {
+      $package_name = ['SABnzbd', 'cheeta','unrar','par2']
+      $service_name = 'sabnzbd'
+      $repo         = [
+        join([ 'http:','','download.opensuse.org',
+          'repositories', 'home:','jjfalling:','branches:','home:',
+          'chenxiaolong:','SABnzbd', 'openSUSE_13.2'],'/'),
+        join(['http:','','download.opensuse.org','repositories',
+          'Archiving','SLE_12'],'/')
+      ]
     }
     default: {
       fail("${::operatingsystem} not supported")
