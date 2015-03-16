@@ -5,7 +5,7 @@
 #
 class sabnzbd::service {
 
-  service { $::sabnzbd::service_name:
+  service { [$::sabnzbd::service_name]:
     ensure     => running,
     enable     => true,
     hasstatus  => true,

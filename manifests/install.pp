@@ -3,8 +3,5 @@
 # This class is called from sabnzbd for install.
 #
 class sabnzbd::install {
-
-  package { $::sabnzbd::package_name:
-    ensure => present,
-  }
+  ensure_packages([$::sabnzbd::package_name])
 }
