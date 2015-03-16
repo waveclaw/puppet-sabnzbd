@@ -11,6 +11,7 @@ describe 'sabnzbd' do
 
         it { is_expected.to compile.with_all_deps }
 
+        it { is_expected.to contain_class('sabnzbd') }
         it { is_expected.to contain_class('sabnzbd::defaults') }
         it { is_expected.to contain_class('sabnzbd::install').that_comes_before('sabnzbd::config') }
         it { is_expected.to contain_class('sabnzbd::config') }
