@@ -4,6 +4,5 @@
 #
 define sabnzbd::repo::zyp {
   $repo = regsubst(regsubst($title,'/','_'),':','')
-  ensure_resource('zypprepo', $repo,
-    {'ensure' =>  'present', baseurl => $title })
+  ensure_resource('zypprepo', $repo, { baseurl => $title })
 }

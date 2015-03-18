@@ -2,6 +2,9 @@
 #
 # This class is called from sabnzbd for install.
 #
-class sabnzbd::install {
-  ensure_packages([$::sabnzbd::package_name])
+class sabnzbd::install (
+  $package,
+){
+  ensure_resource('package', [$package],
+    { 'ensure' => 'present' })
 }

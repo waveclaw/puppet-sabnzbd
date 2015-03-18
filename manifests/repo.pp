@@ -2,16 +2,18 @@
 #
 # This class is called from sabnzbd for setup of repos.
 #
-class sabnzbd::repo {
+class sabnzbd::repo(
+  $repo,
+){
   case $::osfamily {
     'Debian': {
-      sabnzbd::repo::ppa { [$::sabnzbd::repository_name]: }
+      sabnzbd::repo::ppa { [$repo]: }
     }
     'RedHat': {
-      sabnzbd::repo::yum { [$::sabnzbd::repository_name]: }
+      sabnzbd::repo::yum { [$repo]: }
     }
     'Suse': {
-      sabnzbd::repo::zyp { [$::sabnzbd::repository_name]: }
+      sabnzbd::repo::zyp { [$repo]: }
     }
     default: { }
   }

@@ -3,9 +3,11 @@
 # This class is meant to be called from sabnzbd.
 # It ensure the service is running.
 #
-class sabnzbd::service {
+class sabnzbd::service (
+  $service,
+){
 
-  service { [$::sabnzbd::service_name]:
+  service { [$service]:
     ensure     => running,
     enable     => true,
     hasstatus  => true,

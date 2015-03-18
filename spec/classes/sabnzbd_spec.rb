@@ -1,5 +1,9 @@
 require 'spec_helper'
 lsbdist = {:Debian => 'Ubuntu', :RedHat => 'CentOS', :Suse => 'openSUSE project' }
+lcd = {:Debian => 'precise', :RedHat => 'Final', :Suse => 'Harlequin' }
+pkg = {:Debian => [ 'sabnzbdplus', 'sabnzbdplus-theme-modile' ], 
+       :RedHat => [ 'sabnzbd' ], :Suse => [ 'sabnzbd' ] }
+svc = {:Debian => 'sabnzbdplus', :RedHat => 'sabnzbd' , :Suse => 'sabnzbd' }
 
 describe 'sabnzbd' do
   context 'supported operating systems' do
@@ -8,7 +12,8 @@ describe 'sabnzbd' do
         let(:params) {{ }}
         let(:facts) {{
           :osfamily => osfamily,
-          :lsbdistid => lsbdist[osfamily.to_sym]
+          :lsbdistid => lsbdist[osfamily.to_sym],
+          :lsbdistcodename => lcd[osfamily.to_sym]
         }}
 
         it { is_expected.to compile.with_all_deps }
@@ -19,8 +24,10 @@ describe 'sabnzbd' do
         it { is_expected.to contain_class('sabnzbd::config') }
         it { is_expected.to contain_class('sabnzbd::service').that_subscribes_to('sabnzbd::config') }
 
-        it { is_expected.to contain_service('sabnzbd') }
-        it { is_expected.to contain_package('sabnzbd').with_ensure('present') }
+        it { is_expected.to contain_service(svc[osfamily.to_sym]) }
+        pkg[osfamily.to_sym].each do |pack| 
+         it { is_expected.to contain_package(pack).with_ensure('present') }
+        end
       end
     end
   end

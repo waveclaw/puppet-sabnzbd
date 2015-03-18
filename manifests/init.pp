@@ -15,9 +15,9 @@ class sabnzbd (
 
   # validate parameters here
 
-  class { '::sabnzbd::repo': } ->
-  class { '::sabnzbd::install': } ->
+  class { '::sabnzbd::repo': repo       => $repository_name, } ->
+  class { '::sabnzbd::install': package => $package_name, } ->
   class { '::sabnzbd::config': } ~>
-  class { '::sabnzbd::service': } ->
+  class { '::sabnzbd::service': service => $service_name, } ->
   Class['::sabnzbd']
 }
