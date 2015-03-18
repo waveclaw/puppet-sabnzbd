@@ -5,13 +5,13 @@
 class sabnzbd::repo {
   case $::osfamily {
     'Debian': {
-      sabnzbd::repo::ppa { [$::sabnzbd::repo_name]: }
+      sabnzbd::repo::ppa { [$::sabnzbd::repository_name]: }
     }
     'RedHat': {
-      sabnzbd::repo::yum { [$::sabnzbd::repo_name]: }
+      sabnzbd::repo::yum { [$::sabnzbd::repository_name]: }
     }
     'Suse': {
-      sabnzbd::repo::zyp { [$::sabnzbd::repo_name]: }
+      sabnzbd::repo::zyp { [$::sabnzbd::repository_name]: }
     }
     default: { }
   }
