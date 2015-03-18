@@ -5,6 +5,7 @@
 define sabnzbd::repo::yum (
   $title,
 ){
-  $name = regsubst($title,'/','_')
-  ensure_resource('yum', $name, {'ensure' => 'present' })
+  $name = regsubst(regsubst($title,'/','_'),':','_')
+  ensure_resource('yumrepo', $name,
+    {'ensure' => 'present', 'baseurl' => $title })
 }
