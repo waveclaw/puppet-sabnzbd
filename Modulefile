@@ -7,4 +7,6 @@ summary       'Install and configure SABnzbd the Newsgroup Binary Downloads Daem
 description   ''
 project_page  'https://wiki.waveclaw.net/puppet/sabnzbd'
 
-dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/stdlib', '>= 1.0.0'
+dependency 'darin/zypprepo', '>= 1.0.2'
+

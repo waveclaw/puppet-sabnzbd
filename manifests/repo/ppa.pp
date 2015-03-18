@@ -5,6 +5,7 @@
 define sabnzbd::repo::ppa (
   $title,
 ){
-  $name = regsubst($title,'/','_')
-  ensure_resource('ppa', $name, {'ensure' => 'present' })
+  $name = regsubst(regsubst($title,'/','_'),':','')
+  ensure_resource('apt::source', $name,
+    {'ensure' => 'present', 'location' => $name, 'repos' => 'main' })
 }
