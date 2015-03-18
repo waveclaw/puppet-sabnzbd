@@ -2,10 +2,8 @@
 #
 # This class is called from sabnzbd for setup of repos.
 #
-define sabnzbd::repo::zyp (
-  $title,
-){
-  $name = regsubst(regsubst($title,'/','_'),':','')
-  ensure_resource('zypprepo', $name,
+define sabnzbd::repo::zyp {
+  $repo = regsubst(regsubst($title,'/','_'),':','')
+  ensure_resource('zypprepo', $repo,
     {'ensure' =>  'present', baseurl => $title })
 }

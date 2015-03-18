@@ -1,12 +1,14 @@
 require 'spec_helper'
+lsbdist = {:Debian => 'Ubuntu', :RedHat => 'CentOS', :Suse => 'openSUSE project' }
 
 describe 'sabnzbd' do
   context 'supported operating systems' do
-    ['Debian', 'RedHat'].each do |osfamily|
+    ['Debian', 'RedHat', 'Suse'].each do |osfamily|
       describe "sabnzbd class without any parameters on #{osfamily}" do
         let(:params) {{ }}
         let(:facts) {{
           :osfamily => osfamily,
+          :lsbdistid => lsbdist[osfamily.to_sym]
         }}
 
         it { is_expected.to compile.with_all_deps }
