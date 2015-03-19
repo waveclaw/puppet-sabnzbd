@@ -5,7 +5,7 @@ pkg = {:Debian => [ 'sabnzbdplus', 'sabnzbdplus-theme-modile' ],
        :RedHat => [ 'sabnzbd' ], :Suse => [ 'SABnzbd', 'cheeta','unrar','par2'] }
 svc = {:Debian => 'sabnzbdplus', :RedHat => 'sabnzbd' , :Suse => 'sabnzbd' }
 rcsrc = {:Debian => 'init.Debian', :RedHat => 'init.RedHat' , :Suse => 'systemd.Suse' }
-rcfile = {:Debian => '/etc/init.d/sabnzbd', :RedHat => '/etc/init.d/sabnzbd' , :Suse => '/var/lib/systemd/migrated/sabnzbd' }
+rcfile = {:Debian => '/etc/init.d/sabnzbd', :RedHat => '/etc/init.d/sabnzbd' , :Suse => '/usr/lib/systemd/system/sabnzbd.service' }
 
 describe 'sabnzbd' do
   context 'supported operating systems' do

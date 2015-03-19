@@ -37,7 +37,8 @@ class sabnzbd::defaults {
         join(['http:','','download.opensuse.org','repositories',
           'Archiving','SLE_12'],'/')
       ]
-      $rcfile = { 'file' => 'sabnzbd', 'path' => '/var/lib/systemd/migrated',
+      $rcfile = { 'file' => 'sabnzbd.service',
+        'path' => '/usr/lib/systemd/system',
         'type'=> 'systemd' }
     }
     default: {
