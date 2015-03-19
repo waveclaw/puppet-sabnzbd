@@ -1,0 +1,12 @@
+[Unit]
+Description=SABnzbd downloads Usenet hosted Newsgroup Binaries with NBZ files.
+After=network.target
+
+[Service]
+Type=forking
+GuessMainPID=no
+EnvironmentFile=-/etc/sysconfig/sabnzbd
+ExecStart=/usr/bin/python ${INSTALL_DIR}/SABnzbd.py 
+
+[Install]
+WantedBy=multi-user.target
