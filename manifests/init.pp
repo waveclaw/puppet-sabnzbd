@@ -11,13 +11,14 @@ class sabnzbd (
   $repository_name = $::sabnzbd::defaults::repo,
   $package_name    = $::sabnzbd::defaults::package_name,
   $service_name    = $::sabnzbd::defaults::service_name,
+  $rcfile          = $::sabnzbd::defaults::rcfile,
 ) inherits sabnzbd::defaults {
 
   # validate parameters here
 
   class { '::sabnzbd::repo': repo       => $repository_name, } ->
   class { '::sabnzbd::install': package => $package_name, } ->
-  class { '::sabnzbd::config': } ~>
+  class { '::sabnzbd::config': rcfile   => $rcfile, } ~>
   class { '::sabnzbd::service': service => $service_name, } ->
   Class['::sabnzbd']
 }

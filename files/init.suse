@@ -1,0 +1,179 @@
+#!/bin/bash
+#
+#     This library is free software; you can redistribute it and/or modify it
+#     under the terms of the GNU Lesser General Public License as published by
+#     the Free Software Foundation; either version 2.1 of the License, or (at
+#     your option) any later version.
+#			      
+#     This library is distributed in the hope that it will be useful, but
+#     WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#     Lesser General Public License for more details.
+#      
+#     You should have received a copy of the GNU Lesser General Public
+#     License along with this library; if not, write to the Free Software
+#     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307,
+#     USA.
+#
+# /etc/init.d/sabnbzd
+#   and its symbolic link
+# /(usr/)sbin/rcsabnbzd
+#
+# LSB compatible service control script; see http://www.linuxbase.org/spec/
+# 
+# Note: This template uses functions rc_XXX defined in /etc/rc.status on
+# UnitedLinux/SUSE/Novell based Linux distributions. If you want to base your
+# script on this template and ensure that it works on non UL based LSB 
+# compliant Linux distributions, you either have to provide the rc.status
+# functions from UL or change the script to work without them.
+# See skeleton.compat for a template that works with other distros as well.
+#
+### BEGIN INIT INFO
+# Provides:          sabnbzd
+# Required-Start:    $syslog $remote_fs
+# Should-Start:      $time ypbind smtp
+# Required-Stop:     $syslog $remote_fs
+# Should-Stop:       ypbind smtp
+# Default-Start:     3 5
+# Default-Stop:      0 1 2 6
+# Short-Description: sabnbzd XYZ daemon providing ZYX
+# Description:       Start SABnzbd to download Usenet hosted Newsgroup Binaries with NBZ files.
+### END INIT INFO
+
+# Check for existence of needed config file and read it
+SAB_CONFIG=/etc/sysconfig/sabnzbd
+test -r $SAB_CONFIG || { echo "$SAB_CONFIG does not exist.";
+	if [ "$1" = "stop" ]; then exit 0;
+	else exit 6; fi; }
+
+# Read config	
+. $SAB_CONFIG
+
+SAB_USER=${USER-sabnbz}
+SAB_HOME=${INSTALL_DIR-/opt/SABnzb}
+PIDFILE=${PIDFILE-/var/run/SABnbz/SABnzb.pid}
+SAB_BIN=${SAB_HOME}/SABnzbd.py
+NICE=${NICE-10}
+
+# Check for missing binaries (stale symlinks should not happen)
+# Note: Special treatment of stop for LSB conformance
+test -x $SAB_BIN || { echo "$SAB_BIN not installed"; 
+	if [ "$1" = "stop" ]; then exit 0;
+	else exit 5; fi; }
+
+PIDDIR=`dirname $PIDFILE`
+test -d $PIDDIR || { mkdir -p $PIDDIR; chown $SAB_USER $PIDDIR; }
+
+# Source LSB init functions
+. /etc/rc.status
+
+# Reset status of this service
+rc_reset
+
+case "$1" in
+    start)
+	echo -n "Starting SABnzbd "
+	## Start daemon with startproc(8). If this fails
+	## the return value is set appropriately by startproc.
+	/sbin/startproc -s -u $SAB_USER -n $NICE -p $PIDFILE $SAB_BIN 2>&1 >/var/log/SABnbzd.log
+
+	# Remember status and be verbose
+	rc_status -v
+	;;
+    stop)
+	echo -n "Shutting down SABnzbd "
+	## Stop daemon with killproc(8) and if this fails
+	## killproc sets the return value according to LSB.
+
+	/sbin/killproc -TERM $SAB_BIN
+
+	# Remember status and be verbose
+	rc_status -v
+	;;
+    try-restart|condrestart)
+	## Do a restart only if the service was active before.
+	## Note: try-restart is now part of LSB (as of 1.9).
+	## RH has a similar command named condrestart.
+	if test "$1" = "condrestart"; then
+		echo "${attn} Use try-restart ${done}(LSB)${attn} rather than condrestart ${warn}(RH)${norm}"
+	fi
+	$0 status
+	if test $? = 0; then
+		$0 restart
+	else
+		rc_reset	# Not running is not a failure.
+	fi
+	# Remember status and be quiet
+	rc_status
+	;;
+    restart)
+	## Stop the service and regardless of whether it was
+	## running or not, start it again.
+	$0 stop
+	$0 start
+
+	# Remember status and be quiet
+	rc_status
+	;;
+    force-reload)
+	## Signal the daemon to reload its config. Most daemons
+	## do this on signal 1 (SIGHUP).
+	## If it does not support it, restart the service if it
+	## is running.
+
+	echo -n "Reload service SABnzbd "
+	## if it supports it:
+	/sbin/killproc -HUP $SAB_BIN
+	touch $PIDFILE
+	rc_status -v
+
+	## Otherwise:
+	#$0 try-restart
+	#rc_status
+	;;
+    reload)
+	## Like force-reload, but if daemon does not support
+	## signaling, do nothing (!)
+
+	# If it supports signaling:
+	echo -n "Reload service SABnzbd "
+	/sbin/killproc -HUP $SAB_BIN
+	touch $PIDFILE
+	rc_status -v
+	
+	## Otherwise if it does not support reload:
+	#rc_failed 3
+	#rc_status -v
+	;;
+    status)
+	echo -n "Checking for service SABnzbd "
+	## Check status with checkproc(8), if process is running
+	## checkproc will return with exit status 0.
+
+	# Return value is slightly different for the status command:
+	# 0 - service up and running
+	# 1 - service dead, but /var/run/  pid  file exists
+	# 2 - service dead, but /var/lock/ lock file exists
+	# 3 - service not running (unused)
+	# 4 - service status unknown :-(
+	# 5--199 reserved (5--99 LSB, 100--149 distro, 150--199 appl.)
+	
+	# NOTE: checkproc returns LSB compliant status values.
+	/sbin/checkproc -p $PIDFILE $SAB_BIN
+	# NOTE: rc_status knows that we called this init script with
+	# "status" option and adapts its messages accordingly.
+	rc_status -v
+	;;
+    probe)
+	## Optional: Probe for the necessity of a reload, print out the
+	## argument to this init script which is required for a reload.
+	## Note: probe is not (yet) part of LSB (as of 1.9)
+
+	test $SAB_CONFIG -nt $PIDFILE && echo reload
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+	exit 1
+	;;
+esac
+rc_exit

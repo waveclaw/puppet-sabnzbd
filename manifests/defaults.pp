@@ -9,6 +9,9 @@ class sabnzbd::defaults {
       $package_name = [ 'sabnzbdplus', 'sabnzbdplus-theme-modile']
       $service_name = 'sabnzbdplus'
       $repo = 'ppa:jcfp/ppa'
+      $rcfile = { 'file' => 'sabnzbd', 'path' => '/etc/init.d',
+        'type' =>'init' }
+
     }
     'RedHat': {
       $package_name = 'sabnzbd'
@@ -21,6 +24,8 @@ class sabnzbd::defaults {
         join([ 'http:','','packages.atrpms.net','dist',
           "el${::os_maj_version}",'unrar','' ],'/')
       ]
+      $rcfile = { 'file' => 'sabnzbd', 'path' => '/etc/init.d',
+        'type' => 'init' }
     }
     'Suse': {
       $package_name = ['SABnzbd', 'cheeta','unrar','par2']
@@ -32,6 +37,8 @@ class sabnzbd::defaults {
         join(['http:','','download.opensuse.org','repositories',
           'Archiving','SLE_12'],'/')
       ]
+      $rcfile = { 'file' => 'sabnzbd', 'path' => '/var/lib/systemd/migrated',
+        'type'=> 'systemd' }
     }
     default: {
       fail("${::operatingsystem} not supported")

@@ -4,6 +4,8 @@ lcd = {:Debian => 'precise', :RedHat => 'Final', :Suse => 'Harlequin' }
 pkg = {:Debian => [ 'sabnzbdplus', 'sabnzbdplus-theme-modile' ], 
        :RedHat => [ 'sabnzbd' ], :Suse => [ 'SABnzbd', 'cheeta','unrar','par2'] }
 svc = {:Debian => 'sabnzbdplus', :RedHat => 'sabnzbd' , :Suse => 'sabnzbd' }
+rcsrc = {:Debian => 'init.Debian', :RedHat => 'init.RedHat' , :Suse => 'systemd.Suse' }
+rcfile = {:Debian => '/etc/init.d/sabnzbd', :RedHat => '/etc/init.d/sabnzbd' , :Suse => '/var/lib/systemd/migrated/sabnzbd' }
 
 describe 'sabnzbd' do
   context 'supported operating systems' do
@@ -28,6 +30,7 @@ describe 'sabnzbd' do
         it { is_expected.to contain_class('sabnzbd::service').that_subscribes_to('sabnzbd::config') }
 
         it { is_expected.to contain_service(svc[osfamily.to_sym]) }
+        it { is_expected.to contain_file(rcfile[osfamily.to_sym]).with_source("puppet:///modules/sabnzbd/#{rcsrc[osfamily.to_sym]}") }
         pkg[osfamily.to_sym].each do |pack| 
          it { is_expected.to contain_package(pack).with_ensure('present') }
         end
