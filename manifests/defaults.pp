@@ -15,11 +15,11 @@ class sabnzbd::defaults {
       $service_name = 'sabnzbd'
       $repo         = [
         join(['https:','','dl.dropboxusercontent.com','u',
-          '14500830','SABnzbd','RHEL-CentOS', $::os_maj_version],','),
+          '14500830','SABnzbd','RHEL-CentOS', $::os_maj_version],'/'),
         join([ 'http:','','dl.fedoraproject.org','pub','epel',
-          $::os_maj_version,$::architecture ],','),
+          $::os_maj_version,$::architecture ],'/'),
         join([ 'http:','','packages.atrpms.net','dist',
-          "el${::os_maj_version}",'unrar','' ],',')
+          "el${::os_maj_version}",'unrar','' ],'/')
       ]
     }
     'Suse': {

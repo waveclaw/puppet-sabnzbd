@@ -8,7 +8,7 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class sabnzbd (
-  $repository_name = $::sabnzbd::defaults::repository_name,
+  $repository_name = $::sabnzbd::defaults::repo,
   $package_name    = $::sabnzbd::defaults::package_name,
   $service_name    = $::sabnzbd::defaults::service_name,
 ) inherits sabnzbd::defaults {
