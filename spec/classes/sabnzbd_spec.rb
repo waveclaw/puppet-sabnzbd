@@ -42,6 +42,7 @@ describe 'sabnzbd' do
           it { is_expected.to contain_exec('apt_update') }
           it { is_expected.to contain_file('ppajcfp_ppa.list') }
           it { is_expected.to contain_sabnzbd__repo__ppa('ppa:jcfp/ppa') }
+          it { is_expected.to contain_file('/etc/defaults/sabnzbdplus') }
         end
         if osfamily == 'RedHat'
 
@@ -51,12 +52,14 @@ describe 'sabnzbd' do
           it { is_expected.to contain_sabnzbd__repo__yum('http://dl.fedoraproject.org/pub/epel/6/x68_64') }
           it { is_expected.to contain_sabnzbd__repo__yum('http://packages.atrpms.net/dist/el6/unrar/') }
           it { is_expected.to contain_sabnzbd__repo__yum('https://dl.dropboxusercontent.com/u/14500830/SABnzbd/RHEL-CentOS/6') }
+          it { is_expected.to contain_file('/etc/sysconfig/sabnzbd') }
         end
         if osfamily == 'Suse'
           it { is_expected.to contain_zypprepo('http__download.opensuse.org_repositories_Archiving_SLE_12') }
           it { is_expected.to contain_zypprepo('http__download.opensuse.org_repositories_home_jjfalling_branches_home_chenxiaolong_SABnzbd_openSUSE_13.2') }
           it { is_expected.to contain_sabnzbd__repo__zyp('http://download.opensuse.org/repositories/Archiving/SLE_12') }
           it { is_expected.to contain_sabnzbd__repo__zyp('http://download.opensuse.org/repositories/home:/jjfalling:/branches:/home:/chenxiaolong:/SABnzbd/openSUSE_13.2') }
+          it { is_expected.to contain_file('/etc/sysconfig/sabnzbd') }
         end
      end
     end

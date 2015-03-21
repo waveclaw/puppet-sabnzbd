@@ -18,9 +18,9 @@ class sabnzbd::config (
     group  => 'root',
     mode   => '0755',
   }
-  $cpath = $rcfile['path']
-  $cfile = $rcfile['file']
-  $csource = $rcfile['type']
+  $cpath = $confile['path']
+  $cfile = $confile['file']
+  $csource = $confile['type']
   file { "${cpath}/${cfile}":
     source => $csource,
     owner  => 'root',
