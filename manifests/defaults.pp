@@ -9,8 +9,11 @@ class sabnzbd::defaults {
       $package_name = [ 'sabnzbdplus', 'sabnzbdplus-theme-modile']
       $service_name = 'sabnzbdplus'
       $repo = 'ppa:jcfp/ppa'
-      $rcfile = { 'file' => 'sabnzbd', 'path' => '/etc/init.d',
-        'type' =>'init' }
+      $rcfile = { 'file'  => 'sabnzbd', 'path' => '/etc/init.d',
+        'type'            =>'init' }
+      $confile = { 'file' => 'sabnzbdplus', 'path' => '/etc/defaults',
+        'source'          => 'puppet::///modules/sabnzbd/sabnzbdplus' }
+
 
     }
     'RedHat': {
@@ -26,6 +29,8 @@ class sabnzbd::defaults {
       ]
       $rcfile = { 'file' => 'sabnzbd', 'path' => '/etc/init.d',
         'type' => 'init' }
+      $confile = { 'file' => 'sabnzbd', 'path' => '/etc/sysconfig',
+        'source'          => 'puppet::///modules/sabnzbd/sabnzbd' }
     }
     'Suse': {
       $package_name = ['SABnzbd', 'cheeta','unrar','par2']
@@ -40,6 +45,8 @@ class sabnzbd::defaults {
       $rcfile = { 'file' => 'sabnzbd.service',
         'path' => '/usr/lib/systemd/system',
         'type'=> 'systemd' }
+      $confile = { 'file' => 'sabnzbd', 'path' => '/etc/sysconfig',
+        'source'          => 'puppet::///modules/sabnzbd/sabnzbd' }
     }
     default: {
       fail("${::operatingsystem} not supported")
