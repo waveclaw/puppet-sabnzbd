@@ -4,10 +4,11 @@
 # It ensure the service is running.
 #
 class sabnzbd::service (
-  $service = '',
-){
+  $services = hiera('sabnzbd::service::services',
+    $::sabnzbd::defaults::services),
+) inherits sabnzbd::defaults {
 
-  service { [$service]:
+  service { [$services]:
     ensure     => running,
     enable     => true,
     hasstatus  => true,

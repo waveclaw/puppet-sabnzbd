@@ -8,17 +8,10 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class sabnzbd (
-  $repository_name = $::sabnzbd::defaults::repo,
-  $package_name    = $::sabnzbd::defaults::package_name,
-  $service_name    = $::sabnzbd::defaults::service_name,
-  $configfile      = $::sabnzbd::defaults::configfile,
-) inherits sabnzbd::defaults {
-
-  # validate parameters here
-
-  class { '::sabnzbd::repo': repo       => $repository_name, } ->
-  class { '::sabnzbd::install': package => $package_name, } ->
-  class { '::sabnzbd::config': file  => $configfile, } ~>
-  class { '::sabnzbd::service': service => $service_name, } ->
+) {
+  class { '::sabnzbd::repo': } ->
+  class { '::sabnzbd::install': } ->
+  class { '::sabnzbd::config': } ~>
+  class { '::sabnzbd::service': } ->
   Class['::sabnzbd']
 }

@@ -3,11 +3,12 @@
 # This class is called from sabnzbd for service config.
 #
 class sabnzbd::config (
-  $file  = {},
-  $home  = undef,
-  $user  = undef,
-  $group = undef,
-) {
+  $file   = hiera('sabnzbd::config::file', $::sabnzbd::defaults::configfile),
+  $home   = hiera('sabnzbd::config::home', $::sabnzbd::defaults::home),
+  $user   = hiera('sabnzbd::config::user', $::sabnzbd::defaults::user),
+  $group  = hiera('sabnzbd::config::group', $::sabnzbd::defaults::group),
+  $apikey = hiera('sabnzbd::config::apikey', $::sabnzbd::defaults::apikey),
+) inherits sabnzbd::defaults {
   validate_hash($file)
   File {
     owner  => 'root',
