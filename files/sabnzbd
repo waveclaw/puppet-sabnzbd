@@ -9,7 +9,7 @@ SABNZBD_USER=sabnzbd
 SABNZBD_USER=sabnzbd
 #
 # # Api key to shut down service
-SABNZBD_APIKEY=ENTERYOURKEY
+SABNZBD_APIKEY=5ba628db29619760b07e1206dabefe6f
 #
 # # Configuration file location. Only change if the user's home directory is not
 # # in /home or if another configuration file should be used.
