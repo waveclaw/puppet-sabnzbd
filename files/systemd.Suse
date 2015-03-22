@@ -1,17 +1,17 @@
-# SABnzbd systemd service unit file
 [Unit]
 Description=SABnzbd binary newsreader
 After=network.target
 
 [Service]
 Type=forking
-EnvironmentFile=/etc/sysconfig/SABnzbd
+EnvironmentFile=-/etc/sysconfig/SABnzbd
 User=sabnzbd
 Group=sabnzbd
-ExecStart=/usr/bin/python ${SABNZBD_HOME}/SABnzbd.py -d -f ${SABNZBD_CONFIG} --pid ${SABNZBD_HOME}/.sabnzbd
+ExecStart=/opt/SABnzbd/SABnzbd.py -d -f $SABNZBD_CONFIG --pid /opt/SABnzbd/.sabnzbd
 ExecStop=/usr/bin/curl -s "http://localhost:8080/sabnzbd/api?mode=shutdown&apikey=${SABNZBD_APIKEY}"
 KillSignal=SIGHUP
-PIDFile=${SABNZBD_HOME}/.sabnzbd/sabnzbd-8080.pid
+PIDFile=/opt/SABnzbd/.sabnzbd/sabnzbd-8080.pid
 
 [Install]
 WantedBy=multi-user.target
+
