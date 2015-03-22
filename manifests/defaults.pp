@@ -33,14 +33,19 @@ class sabnzbd::defaults {
         'source'          => 'puppet::///modules/sabnzbd/sabnzbd' }
     }
     'Suse': {
-      $package_name = ['SABnzbd', 'cheeta','unrar','par2']
+      $package_name = ['SABnzbd', 'python-cheeta','unrar',
+        'par2cmdline','par2','python-yenc']
       $service_name = 'sabnzbd'
       $repo         = [
         join([ 'http:','','download.opensuse.org',
           'repositories', 'home:','jjfalling:','branches:','home:',
           'chenxiaolong:','SABnzbd', 'openSUSE_13.2'],'/'),
         join(['http:','','download.opensuse.org','repositories',
-          'Archiving','SLE_12'],'/')
+          'Archiving','SLE_12'],'/'),
+        join([ 'http:','','download.opensuse.org','repositories',
+          'home:','bmanojlovic','SLE_12'],'/'),
+        join([ 'http:','','download.opensuse.org','repositories',
+          'home:','mhopf','SLE_12' ],'/')
       ]
       $rcfile = { 'file' => 'sabnzbd.service',
         'path' => '/usr/lib/systemd/system',
