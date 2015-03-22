@@ -3,8 +3,9 @@
 # This class is called from sabnzbd for install.
 #
 class sabnzbd::install (
-  $package = '',
-){
-  ensure_resource('package', [$package],
+  $packages = hiera('::sabnzbd::install::packages',
+    $::sabnzbd::defaults::packages),
+) inherits sabnzbd::defaults {
+  ensure_resource('package', $packages,
     { 'ensure' => 'present' })
 }
