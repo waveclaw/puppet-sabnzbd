@@ -6,8 +6,8 @@ After=network.target
 [Service]
 Type=forking
 EnvironmentFile=/etc/sysconfig/SABnzbd
-User=${SABNZBD_USER}
-Group=${SABNZBD_GROUP}
+User=$SABNZBD_USER
+Group=$SABNZBD_GROUP
 ExecStart=/usr/bin/python ${SABNZBD_HOME}/SABnzbd.py -d -f ${SABNZBD_CONFIG} --pid ${SABNZBD_HOME}/.sabnzbd
 ExecStop=/usr/bin/curl -s "http://localhost:8080/sabnzbd/api?mode=shutdown&apikey=${SABNZBD_APIKEY}"
 KillSignal=SIGHUP
