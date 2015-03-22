@@ -45,7 +45,9 @@ class sabnzbd::defaults {
         join([ 'http:','','download.opensuse.org','repositories',
           'home:','bmanojlovic','SLE_12'],'/'),
         join([ 'http:','','download.opensuse.org','repositories',
-          'home:','mhopf','SLE_12' ],'/')
+          'home:','mhopf','SLE_12' ],'/'),
+        join([ 'http:','','download.opensuse.org','repositories',
+          'home:','waveclaw:','branches:','home:','robverduijn','SLE_12' ],',')
       ]
       $rcfile = { 'file' => 'sabnzbd.service',
         'path' => '/usr/lib/systemd/system',
