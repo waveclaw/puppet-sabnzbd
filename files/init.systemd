@@ -4,7 +4,7 @@ Description=SABnzbd binary newsreader
 After=network.target
 
 [Service]
-Type=forking
+Type=Simple
 EnvironmentFile=/etc/sysconfig/SABnzbd
 User=${SABNZBD_USER}
 Group=${SABNZBD_GROUP}
