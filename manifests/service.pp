@@ -4,7 +4,7 @@
 # It ensure the service is running.
 #
 class sabnzbd::service (
-  $service,
+  $service = '',
 ){
 
   service { [$service]:

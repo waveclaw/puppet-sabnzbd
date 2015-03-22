@@ -3,7 +3,7 @@
 # This class is called from sabnzbd for install.
 #
 class sabnzbd::install (
-  $package,
+  $package = '',
 ){
   ensure_resource('package', [$package],
     { 'ensure' => 'present' })

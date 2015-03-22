@@ -1,0 +1,16 @@
+# Note: you will need to modify the SABnzbd.service file as much of it
+# cannot use vairables
+SABNZBD_HOME=<%= scope.lookupvar('sabnzbd::config::home') %>
+
+# User to run SABnzbd as.
+SABNZBD_USER=<%= scope.lookupvar('sabnzbd::config::user') %>
+
+# Group to run SABnzbd as.
+SABNZBD_GROUP=<%= scope.lookupvar('sabnzbd::config::group') %>
+
+# Api key to shut down service
+SABNZBD_APIKEY=<%= scope.lookupvar('sabnzbd::config::apikey') %>
+
+# Configuration file location. Only change if the user's home directory is not
+# in /home or if another configuration file should be used.
+SABNZBD_CONFIG="${SABNZBD_HOME}/.sabnzbd/sabnzbd.ini"

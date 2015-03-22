@@ -3,7 +3,7 @@
 # This class is called from sabnzbd for setup of repos.
 #
 class sabnzbd::repo(
-  $repo,
+  $repo = '',
 ){
   case $::osfamily {
     'Debian': {

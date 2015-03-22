@@ -4,13 +4,12 @@ lcd = {:Debian => 'precise', :RedHat => 'Final', :Suse => 'Harlequin' }
 pkg = {:Debian => [ 'sabnzbdplus', 'sabnzbdplus-theme-modile' ], 
        :RedHat => [ 'sabnzbd' ], :Suse => [ 'SABnzbd' ] }
 svc = {:Debian => 'sabnzbdplus', :RedHat => 'sabnzbd' , :Suse => 'sabnzbd' }
-rcsrc = {:Debian => 'init.Debian', :RedHat => 'init.RedHat' , :Suse => 'systemd.Suse' }
-rcfile = {:Debian => '/etc/init.d/sabnzbd', :RedHat => '/etc/init.d/sabnzbd' , :Suse => '/usr/lib/systemd/system/sabnzbd.service' }
+confile = {:Debian => '/etc/defaults/sabnzbdplus', :RedHat => '/etc/sysconfig/SABnzbd' , :Suse => '/etc/sysconfig/SABnzbd' }
 
 describe 'sabnzbd' do
   context 'supported operating systems' do
     ['Debian', 'RedHat', 'Suse'].each do |osfamily|
-      describe "sabnzbd class without any parameters on #{osfamily}" do
+      describe "without any parameters on #{osfamily}" do
         let(:params) {{ }}
         let(:facts) {{
           :osfamily => osfamily,
@@ -28,9 +27,8 @@ describe 'sabnzbd' do
         it { is_expected.to contain_class('sabnzbd::install').that_comes_before('sabnzbd::config') }
         it { is_expected.to contain_class('sabnzbd::config') }
         it { is_expected.to contain_class('sabnzbd::service').that_subscribes_to('sabnzbd::config') }
-
         it { is_expected.to contain_service(svc[osfamily.to_sym]) }
-        it { is_expected.to contain_file(rcfile[osfamily.to_sym]).with_source("puppet:///modules/sabnzbd/#{rcsrc[osfamily.to_sym]}") }
+        it { is_expected.to contain_file(confile[osfamily.to_sym]) }
         pkg[osfamily.to_sym].each do |pack| 
          it { is_expected.to contain_package(pack).with_ensure('present') }
         end
@@ -42,7 +40,6 @@ describe 'sabnzbd' do
           it { is_expected.to contain_exec('apt_update') }
           it { is_expected.to contain_file('ppajcfp_ppa.list') }
           it { is_expected.to contain_sabnzbd__repo__ppa('ppa:jcfp/ppa') }
-          it { is_expected.to contain_file('/etc/defaults/sabnzbdplus') }
         end
         if osfamily == 'RedHat'
           it { is_expected.to contain_yumrepo('http__dl.fedoraproject.org_pub_epel_6_x68_64') }
@@ -51,10 +48,8 @@ describe 'sabnzbd' do
           it { is_expected.to contain_sabnzbd__repo__yum('http://dl.fedoraproject.org/pub/epel/6/x68_64') }
           it { is_expected.to contain_sabnzbd__repo__yum('http://packages.atrpms.net/dist/el6/unrar/') }
           it { is_expected.to contain_sabnzbd__repo__yum('https://dl.dropboxusercontent.com/u/14500830/SABnzbd/RHEL-CentOS/6') }
-          it { is_expected.to contain_file('/etc/sysconfig/sabnzbd') }
         end
         if osfamily == 'Suse'
-          it { is_expected.to contain_file('/etc/sysconfig/SABnzbd') }
           it { is_expected.to contain_sabnzbd__repo__zyp('http://download.opensuse.org/repositories/Archiving/SLE_12') }
           it { is_expected.to contain_sabnzbd__repo__zyp('http://download.opensuse.org/repositories/home:/waveclaw:/HTPC/SLE_12') }
           it { is_expected.to contain_zypprepo('http__download.opensuse.org_repositories_Archiving_SLE_12') }

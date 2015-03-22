@@ -9,10 +9,8 @@ class sabnzbd::defaults {
       $package_name = [ 'sabnzbdplus', 'sabnzbdplus-theme-modile']
       $service_name = 'sabnzbdplus'
       $repo = 'ppa:jcfp/ppa'
-      $rcfile = { 'file'  => 'sabnzbd', 'path' => '/etc/init.d',
-        'type'            =>'init' }
-      $confile = { 'file' => 'sabnzbdplus', 'path' => '/etc/defaults',
-        'source'          => 'puppet::///modules/sabnzbd/sabnzbdplus' }
+      $configfile = { 'file' => 'sabnzbdplus', 'path' => '/etc/defaults',
+        'template' => 'sabnzbd/sabnzbdplus.erb' }
 
 
     }
@@ -27,14 +25,12 @@ class sabnzbd::defaults {
         join([ 'http:','','packages.atrpms.net','dist',
           "el${::os_maj_version}",'unrar','' ],'/')
       ]
-      $rcfile = { 'file' => 'sabnzbd', 'path' => '/etc/init.d',
-        'type' => 'init' }
-      $confile = { 'file' => 'sabnzbd', 'path' => '/etc/sysconfig',
-        'source'          => 'puppet::///modules/sabnzbd/sabnzbd' }
+      $configfile = { 'file' => 'SABnzbd', 'path' => '/etc/sysconfig',
+        'template'          => 'sabnzbd/sabnzbd.erb' }
     }
     'Suse': {
       # Push dependencies into package!
-      $package_name = ['SABnzbd']
+      $package_name = 'SABnzbd'
       $service_name = 'sabnzbd'
       $repo         = [
         join(['http:','','download.opensuse.org','repositories',
@@ -42,11 +38,8 @@ class sabnzbd::defaults {
         join(['http:','','download.opensuse.org','repositories',
           'home:','waveclaw:','HTPC', 'SLE_12'],'/')
       ]
-      $rcfile = { 'file' => 'sabnzbd.service',
-        'path' => '/usr/lib/systemd/system',
-        'type'=> 'systemd' }
-      $confile = { 'file' => 'SABnzbd', 'path' => '/etc/sysconfig',
-        'source'          => 'puppet::///modules/sabnzbd/sabnzbd' }
+      $configfile = { 'file' => 'SABnzbd', 'path' => '/etc/sysconfig',
+        'template'          => 'sabnzbd/sabnzbd.erb' }
     }
     default: {
       fail("${::operatingsystem} not supported")

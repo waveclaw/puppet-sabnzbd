@@ -3,28 +3,25 @@
 # This class is called from sabnzbd for service config.
 #
 class sabnzbd::config (
-  $rcfile,
-  $confile,
+  $file  = {},
+  $home  = undef,
+  $user  = undef,
+  $group = undef,
 ) {
-  validate_hash($rcfile)
-  validate_hash($confile)
-  $rpath = $rcfile['path']
-  $rfile = $rcfile['file']
-  $rtype = $rcfile['type']
-  file { "${rpath}/${rfile}":
-    ensure => file,
-    source => "puppet:///modules/sabnzbd/${rtype}.${::osfamily}",
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-  }
-  $cpath = $confile['path']
-  $cfile = $confile['file']
-  $csource = $confile['type']
-  file { "${cpath}/${cfile}":
-    source => $csource,
+  validate_hash($file)
+  File {
     owner  => 'root',
     group  => 'root',
     mode   => '0644',
+  }
+  $pathname = $file['path']
+  $basename = $file['file']
+  $target = "${pathname}/${basename}"
+  if has_key($file, 'source') {
+    file { $target: source => $file['source'], }
+  } elsif has_key($file, 'template') {
+    file { $target: content => template($file['template']), }
+  } else {
+    notice('No source for configuration file, none will be used.')
   }
 }
