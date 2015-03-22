@@ -1,57 +1,17 @@
 # SABnzbd systemd service unit file
-#
-# Configuration Notes
-#
-#    - Option names (e.g. ExecStart=, Type=) are case-sensitive)
-#
-#    - Adjust User= and Group= to the user/group you want Sickbeard to run as.
-#
-#    - Optional adjust EnvironmentFile= path to configuration file
-#        Can ONLY be used for configuring extra options used in ExecStart.
-#        Putting a minus (-) in front of file means no error warning if the file doesn't exist
-#
-#    - Adjust ExecStart= to point to your python and SABnzbd executables.
-#       The FIRST token of the command line must be an ABSOLUTE FILE NAME,
-#       then followed by arguments for the process.
-#       If no --datadir is given, data is stored in same dir as SABnzbd.py
-#       Arguments can also be set in EnvironmentFile (except python)
-#
-#    - WantedBy= specifies which target (i.e. runlevel) to start Sickbeard for.
-#        multi-user.target equates to runlevel 3 (multi-user text mode)
-#        graphical.target  equates to runlevel 5 (multi-user X11 graphical mode)
-#
-
-### Example Using SABnzbd as daemon with pid file
-# Type=forking
-# PIDFile=/var/run/sabnzbd/sabnzbd.pid
-# ExecStart=/usr/bin/python /opt/sabnzbd/SABnzbd.py -q --daemon --nolaunch --pidfile=/var/run/sabnzbd/sabnzbd.pid --datadir=/opt/sabnzbd
-
-## Example Using SABnzbd as daemon without pid file
-# Type=forking
-# GuessMainPID=no
-# ExecStart=/usr/bin/python /opt/sabnzbd/SABnzbd.py -q --daemon --nolaunch --datadir=/opt/sabnzbd
-
-### Example Using simple
-# Type=simple
-# ExecStart=/usr/bin/python /opt/sabnzbd/SABnzbd.py -q --nolaunch
-
-### Example Using simple with EnvironmentFile where SB_DATA=/home/sabnzbd/.sabnzbd in /etc/sabnzbd.conf
-# Type=simple
-# EnvironmentFile=/etc/sabnzbd.conf
-# ExecStart=/usr/bin/python /opt/sabnzbd/SABnzbd.py -q --nolaunch --datadir=${SB_DATA}
-
-### Configuration
-
 [Unit]
-Description=SABnzbd Daemon
+Description=SABnzbd binary newsreader
+After=network.target
 
 [Service]
-EnvironmentFile=/etc/sysconfig/sabnzbd
-User=${SAB_USER}
-Group=${SAB_GROUP}
 Type=forking
-GuessMainPID=no
-ExecStart=/usr/bin/python ${SAB_HOME}/SABnzbd.py
+EnvironmentFile=/etc/sysconfig/SABnzbd
+User=${SABNZBD_USER}
+Group=${SABNZBD_GROUP}
+ExecStart=/usr/bin/python ${SABNZBD_HOME}/SABnzbd.py -d -f ${SABNZBD_CONFIG} --pid ${SABNZBD_HOME}/.sabnzbd
+ExecStop=/usr/bin/curl -s "http://localhost:8080/sabnzbd/api?mode=shutdown&apikey=${SABNZBD_APIKEY}"
+KillSignal=SIGHUP
+PIDFile=${SABNZBD_HOME}/.sabnzbd/sabnzbd-8080.pid
 
 [Install]
 WantedBy=multi-user.target

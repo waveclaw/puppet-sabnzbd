@@ -2,7 +2,7 @@ require 'spec_helper'
 lsbdist = {:Debian => 'Ubuntu', :RedHat => 'CentOS', :Suse => 'openSUSE project' }
 lcd = {:Debian => 'precise', :RedHat => 'Final', :Suse => 'Harlequin' }
 pkg = {:Debian => [ 'sabnzbdplus', 'sabnzbdplus-theme-modile' ], 
-       :RedHat => [ 'sabnzbd' ], :Suse => [ 'SABnzbd', 'cheeta','unrar','par2'] }
+       :RedHat => [ 'sabnzbd' ], :Suse => [ 'SABnzbd' ] }
 svc = {:Debian => 'sabnzbdplus', :RedHat => 'sabnzbd' , :Suse => 'sabnzbd' }
 rcsrc = {:Debian => 'init.Debian', :RedHat => 'init.RedHat' , :Suse => 'systemd.Suse' }
 rcfile = {:Debian => '/etc/init.d/sabnzbd', :RedHat => '/etc/init.d/sabnzbd' , :Suse => '/usr/lib/systemd/system/sabnzbd.service' }
@@ -45,7 +45,6 @@ describe 'sabnzbd' do
           it { is_expected.to contain_file('/etc/defaults/sabnzbdplus') }
         end
         if osfamily == 'RedHat'
-
           it { is_expected.to contain_yumrepo('http__dl.fedoraproject.org_pub_epel_6_x68_64') }
           it { is_expected.to contain_yumrepo('http__packages.atrpms.net_dist_el6_unrar_') }
           it { is_expected.to contain_yumrepo('https__dl.dropboxusercontent.com_u_14500830_SABnzbd_RHEL-CentOS_6') }
@@ -55,11 +54,11 @@ describe 'sabnzbd' do
           it { is_expected.to contain_file('/etc/sysconfig/sabnzbd') }
         end
         if osfamily == 'Suse'
-          it { is_expected.to contain_zypprepo('http__download.opensuse.org_repositories_Archiving_SLE_12') }
-          it { is_expected.to contain_zypprepo('http__download.opensuse.org_repositories_home_jjfalling_branches_home_chenxiaolong_SABnzbd_openSUSE_13.2') }
+          it { is_expected.to contain_file('/etc/sysconfig/SABnzbd') }
           it { is_expected.to contain_sabnzbd__repo__zyp('http://download.opensuse.org/repositories/Archiving/SLE_12') }
-          it { is_expected.to contain_sabnzbd__repo__zyp('http://download.opensuse.org/repositories/home:/jjfalling:/branches:/home:/chenxiaolong:/SABnzbd/openSUSE_13.2') }
-          it { is_expected.to contain_file('/etc/sysconfig/sabnzbd') }
+          it { is_expected.to contain_sabnzbd__repo__zyp('http://download.opensuse.org/repositories/home:/waveclaw:/HTPC/SLE_12') }
+          it { is_expected.to contain_zypprepo('http__download.opensuse.org_repositories_Archiving_SLE_12') }
+          it { is_expected.to contain_zypprepo('http__download.opensuse.org_repositories_home_waveclaw_HTPC_SLE_12') }
         end
      end
     end
