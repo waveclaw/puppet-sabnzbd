@@ -31,7 +31,7 @@ class sabnzbd::defaults {
     }
     'Suse': {
       # Push dependencies into package!
-      $packages = 'SABnzbd'
+      $packages = 'sabnzbd'
       $services = 'sabnzbd'
       $repos    = [
         join([ 'http://download.opensuse.org/repositories',

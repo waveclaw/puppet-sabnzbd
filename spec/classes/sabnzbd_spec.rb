@@ -2,7 +2,7 @@ require 'spec_helper'
 lsbdist = {:Debian => 'Ubuntu', :RedHat => 'CentOS', :Suse => 'openSUSE project' }
 lcd = {:Debian => 'precise', :RedHat => 'Final', :Suse => 'Harlequin' }
 pkg = {:Debian => [ 'sabnzbdplus', 'sabnzbdplus-theme-modile' ], 
-       :RedHat => [ 'sabnzbd' ], :Suse => [ 'SABnzbd' ] }
+       :RedHat => [ 'sabnzbd' ], :Suse => [ 'sabnzbd' ] }
 svc = {:Debian => 'sabnzbdplus', :RedHat => 'sabnzbd' , :Suse => 'sabnzbd' }
 confile = {:Debian => '/etc/defaults/sabnzbdplus', :RedHat => '/etc/sysconfig/SABnzbd' , :Suse => '/etc/sysconfig/SABnzbd' }
 
