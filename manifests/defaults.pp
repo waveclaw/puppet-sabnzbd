@@ -5,6 +5,8 @@
 #
 class sabnzbd::defaults {
   $apikey = '"check https://localhost:9090/config/general/ for your apikey"'
+  $user = 'sabnzbd'
+  $group = 'sabnzbd'
   $iniconf = { 'file' => '.sabnzbd.ini', 'path' => '/var/lib/sabnzbd/.config',
     'template' => 'sabnzbd/sabnzbd.ini.erb' }
   case $::osfamily {

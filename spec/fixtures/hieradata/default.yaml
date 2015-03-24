@@ -1,0 +1,20 @@
+---
+sabnzbd::ratingkey: '1234'
+sabnzbd::downloadcache: '/var/lib/Downloads/incoming'
+sabnzbd::downloadtarget: '/var/lib/Downloads/complete'
+sabnzbd::web:user: 'alice'
+sabnzbd::web::password: 'bob'
+sabnzbd::servers:
+  'foo.com':
+    username: 'cindy' 
+    enable: 1
+    name: 'foo.com'
+    fillserver: 0
+    connections: 150000
+    ssl: 1
+    host: 'foo.com'
+    timeout: 1200000
+    password: 'eve'
+    optional: 0
+    port: 563
+    retention: 0

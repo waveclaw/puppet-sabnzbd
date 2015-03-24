@@ -1,6 +1,8 @@
 .*.sw?
 pkg
 spec/fixtures
+!spec/fixtures/hiera.yaml
+!spec/fixtures/hieradata/default.yaml
 .rspec_system
 .vagrant
 .bundle

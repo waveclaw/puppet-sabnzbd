@@ -4,7 +4,7 @@ lcd = {:Debian => 'precise', :RedHat => 'Final', :Suse => 'Harlequin' }
 pkg = {:Debian => [ 'sabnzbdplus', 'sabnzbdplus-theme-modile' ], 
        :RedHat => [ 'sabnzbd' ], :Suse => [ 'sabnzbd' ] }
 svc = {:Debian => 'sabnzbdplus', :RedHat => 'sabnzbd' , :Suse => 'sabnzbd' }
-confile = {:Debian => '/etc/defaults/sabnzbdplus', :RedHat => '/etc/sysconfig/SABnzbd' , :Suse => '/etc/sysconfig/SABnzbd' }
+confile = {:Debian => '/etc/defaults/sabnzbdplus', :RedHat => '/etc/sysconfig/sabnzbd' , :Suse => '/etc/sysconfig/sabnzbd' }
 
 describe 'sabnzbd' do
   context 'supported operating systems' do
@@ -27,6 +27,9 @@ describe 'sabnzbd' do
         it { is_expected.to contain_class('sabnzbd::install').that_comes_before('sabnzbd::config') }
         it { is_expected.to contain_class('sabnzbd::config') }
         it { is_expected.to contain_class('sabnzbd::service').that_subscribes_to('sabnzbd::config') }
+        it { is_expected.to contain_file('/var/lib/sabnzbd/.config/.sabnzbd.ini') }
+        it { is_expected.to contain_file('/var/lib/sabnzbd/.config') }
+
         it { is_expected.to contain_service(svc[osfamily.to_sym]) }
         it { is_expected.to contain_file(confile[osfamily.to_sym]) }
         pkg[osfamily.to_sym].each do |pack| 
