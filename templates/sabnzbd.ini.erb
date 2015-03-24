@@ -37,7 +37,7 @@ quota_period = m
 email_to = ,
 rating_filter_pause_audio = 0
 rss_filenames = 0
-password = <%= scope.function_hiera('::sabnzbd::web::password') %>
+password = <%= scope.function_hiera(['::sabnzbd::web::password']) %>
 permissions = ""
 quota_day = ""
 auto_disconnect = 1
@@ -92,7 +92,7 @@ allow_streaming = 0
 config_lock = 0
 quota_resume = 0
 api_warnings = 1
-rating_api_key = <%= scope.function_hiera('::sabnzbd::ratingkey') %>
+rating_api_key = <%= scope.function_hiera(['::sabnzbd::ratingkey']) %>
 wait_for_dfolder = 0
 tv_sort_string = ""
 rating_filter_abort_encrypted = 0
@@ -104,14 +104,14 @@ rating_filter_abort_spam_confirm = 0
 unpack_check = 1
 no_ipv6 = 0
 rating_filter_abort_downvoted = 0
-download_dir = <%= scope.function_hiera('::sabndba::downloadcahe') %> 
+download_dir = <%= scope.function_hiera(['::sabndba::downloadcahe']) %> 
 size_limit = 0
 enable_par_cleanup = 1
 safe_postproc = 1
 language = en
 new_nzb_on_failure = 0
 cache_dir = cache
-complete_dir =  <%= scope.function_hiera('::sabndba::downloadtarget') %>
+complete_dir =  <%= scope.function_hiera(['::sabndba::downloadtarget']) %>
 rating_filter_pause_downvoted = 0
 replace_illegal = 1
 rating_filter_abort_audio = 0
@@ -122,7 +122,7 @@ warned_old_queue = 0
 enable_tsjoin = 1
 check_new_rel = 1
 enable_https = 1
-username = <%+ scope.function_hiera('::sabndbz::web:user') %>
+username = <%= scope.function_hiera(['::sabndbz::web:user']) %>
 never_repair = 0
 no_dupes = 0
 keep_awake = 1
@@ -194,15 +194,15 @@ unbookmark = 1
 username = ""
 apikey = ""
 [servers]
-<%- #iterate over these server -%>
 <%- srvs = scope.function_hiera(['sabnzbd::servers']) -%>
+<%- if srvs -%>
 <%- srvs.keys.each do |srv| -%>
 [[<%=srvs[srv.to_sym]%>]]
  <%- srvs[srv.to_sym].each_pair do |key,value| -%>
 <%=value%> = <%=key%>
  <%- end-%>
 <%- end-%>
-<%- # end iterate -%>
+<%- end -%>
 retention = 0
 [categories]
 [[*]]
