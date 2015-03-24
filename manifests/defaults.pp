@@ -5,15 +5,15 @@
 #
 class sabnzbd::defaults {
   $apikey = '"check https://localhost:9090/config/general/ for your apikey"'
+  $ini = { 'file' => '.sabnzbd.ini', 'path' => '/var/lib/sabnzbd/.config',
+    'template' => 'sabnzbd/sabnzbd.ini.erb' }
   case $::osfamily {
     'Debian': {
       $packages = [ 'sabnzbdplus', 'sabnzbdplus-theme-modile']
       $services = 'sabnzbdplus'
       $repos    = 'ppa:jcfp/ppa'
-      $configfile = { 'file' => 'sabnzbdplus', 'path' => '/etc/defaults',
+      $sysconf = { 'file' => 'sabnzbdplus', 'path' => '/etc/defaults',
         'template' => 'sabnzbd/sabnzbdplus.erb' }
-
-
     }
     'RedHat': {
       $packages = 'sabnzbd'
