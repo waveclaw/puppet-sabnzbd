@@ -6,14 +6,14 @@
 #
 class sabnzbd::config (
   $sysconf = hiera('sabnzbd::config::sysconf', $::sabnzbd::defaults::sysconf),
-  $ini     = hiera('sabnzbd::config::ini', $::sabnzbd::defaults::ini),
+  $iniconf = hiera('sabnzbd::config::iniconf', $::sabnzbd::defaults::iniconf),
   $home    = hiera('sabnzbd::config::home', $::sabnzbd::defaults::home),
   $user    = hiera('sabnzbd::config::user', $::sabnzbd::defaults::user),
   $group   = hiera('sabnzbd::config::group', $::sabnzbd::defaults::group),
   $apikey  = hiera('sabnzbd::config::apikey', $::sabnzbd::defaults::apikey),
 ) inherits sabnzbd::defaults {
   validate_hash($sysconf)
-  validate_hash($ini)
+  validate_hash($iniconf)
   validate_string($home)
   validate_string($user)
   validate_string($group)
@@ -28,31 +28,31 @@ class sabnzbd::config (
   $conf = "${confpath}/${confname}"
   if has_key($sysconf, 'source') {
     file { $conf: source => $sysconf['source'], }
-  } elsif has_key($conf, 'template') {
+  } elsif has_key($sysconf, 'template') {
     file { $conf: content => template($sysconf['template']), }
   } else {
     notice('No source for configuration file, none will be used.')
   }
   # what about $home/sabnzbd.ini ?
-  $pathname = $ini['path']
+  $pathname = $iniconf['path']
   file { $pathname:
     ensure => directory,
     owner  => $user,
     group  => $group,
     mode   => '0750',
   }
-  $basename = $ini['file']
-  $target = "${pathname}/${basename}"
-  if has_key($ini, 'source') {
-    file { $target:
-      source => $ini['source'],
+  $basename = $iniconf['file']
+  $inifile = "${pathname}/${basename}"
+  if has_key($iniconf, 'source') {
+    file { $inifile:
+      source => $iniconf['source'],
       owner  => $user,
       group  => $group,
       mode   => '0600',
     }
-  } elsif has_key($ini, 'template') {
-    file { $target:
-      content => template($ini['template']),
+  } elsif has_key($iniconf, 'template') {
+    file { $inifile:
+      content => template($iniconf['template']),
       owner   => $user,
       group   => $group,
       mode    => '0600',

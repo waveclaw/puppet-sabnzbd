@@ -5,7 +5,7 @@
 #
 class sabnzbd::defaults {
   $apikey = '"check https://localhost:9090/config/general/ for your apikey"'
-  $ini = { 'file' => '.sabnzbd.ini', 'path' => '/var/lib/sabnzbd/.config',
+  $iniconf = { 'file' => '.sabnzbd.ini', 'path' => '/var/lib/sabnzbd/.config',
     'template' => 'sabnzbd/sabnzbd.ini.erb' }
   case $::osfamily {
     'Debian': {
@@ -26,8 +26,8 @@ class sabnzbd::defaults {
         join([ 'http://packages.atrpms.net/dist',
           "el${::os_maj_version}",'unrar','' ], '/')
       ]
-      $configfile = { 'file' => 'SABnzbd', 'path' => '/etc/sysconfig',
-        'template'          => 'sabnzbd/sabnzbd.erb' }
+      $sysconf = { 'file' => 'sabnzbd', 'path' => '/etc/sysconfig',
+        'template' => 'sabnzbd/sabnzbd.erb' }
     }
     'Suse': {
       # Push dependencies into package!
@@ -39,8 +39,8 @@ class sabnzbd::defaults {
         join([ 'http://download.opensuse.org/repositories',
           'home:/waveclaw:/HTPC/SLE_12'],'/')
       ]
-      $configfile = { 'file' => 'SABnzbd', 'path' => '/etc/sysconfig',
-        'template'          => 'sabnzbd/sabnzbd.erb' }
+      $sysconf = { 'file' => 'sabnzbd', 'path' => '/etc/sysconfig',
+        'template' => 'sabnzbd/sabnzbd.erb' }
     }
     default: {
       fail("${::operatingsystem} not supported")

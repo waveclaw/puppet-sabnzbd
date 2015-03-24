@@ -24,7 +24,7 @@ web_color2 = ""
 dirscan_speed = 5
 enable_filejoin = 1
 create_group_folders = 0
-api_key = <%= scope.lookup('::sabnzbd::config::apikey') %>
+api_key = <%= scope.lookupvar('::sabnzbd::config::apikey') %>
 rating_feedback = 1
 no_penalties = 0
 randomize_server_ip = 0
@@ -194,15 +194,15 @@ unbookmark = 1
 username = ""
 apikey = ""
 [servers]
-<% #iterate over these server -%>
-<% srvs = scope.function_hiera(['sabnzbd::servers']) -%>
-<% srvs.keys.each do |srv| -%>
+<%- #iterate over these server -%>
+<%- srvs = scope.function_hiera(['sabnzbd::servers']) -%>
+<%- srvs.keys.each do |srv| -%>
 [[<%=srvs[srv.to_sym]%>]]
- <% srvs[srv.to_sym].each_pair do |key,value| -%>
+ <%- srvs[srv.to_sym].each_pair do |key,value| -%>
 <%=value%> = <%=key%>
- <%end-%>
-<%end-%>
-<% # end iterate -%>
+ <%- end-%>
+<%- end-%>
+<%- # end iterate -%>
 retention = 0
 [categories]
 [[*]]
