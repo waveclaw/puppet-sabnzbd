@@ -36,26 +36,29 @@ class sabnzbd::config (
   # what about $home/sabnzbd.ini ?
   $pathname = $iniconf['path']
   file { $pathname:
-    ensure => directory,
-    owner  => $user,
-    group  => $group,
-    mode   => '0750',
+    ensure    => directory,
+    owner     => $user,
+    group     => $group,
+    mode      => '0750',
+    show_diff => false,
   }
   $basename = $iniconf['file']
   $inifile = "${pathname}/${basename}"
   if has_key($iniconf, 'source') {
     file { $inifile:
-      source => $iniconf['source'],
-      owner  => $user,
-      group  => $group,
-      mode   => '0600',
+      source    => $iniconf['source'],
+      owner     => $user,
+      group     => $group,
+      mode      => '0600',
+      show_diff => false,
     }
   } elsif has_key($iniconf, 'template') {
     file { $inifile:
-      content => template($iniconf['template']),
-      owner   => $user,
-      group   => $group,
-      mode    => '0600',
+      content   => template($iniconf['template']),
+      owner     => $user,
+      group     => $group,
+      mode      => '0600',
+      show_diff => false,
     }
   } else {
     notice('No source for configuration file, none will be used.')
