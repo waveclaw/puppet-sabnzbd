@@ -27,6 +27,7 @@ class sabnzbd::config (
   validate_string($user)
   validate_string($group)
   validate_string($apikey)
+  validate_hash($servers)
   File {
     owner  => 'root',
     group  => 'root',
