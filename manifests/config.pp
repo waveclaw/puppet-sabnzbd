@@ -5,13 +5,16 @@
 # (The actual sabndbz.ini file is in the profile::mediaserver module)
 #
 class sabnzbd::config (
-  $sysconf = hiera('sabnzbd::config::sysconf', $::sabnzbd::defaults::sysconf),
-  $iniconf = hiera('sabnzbd::config::iniconf', $::sabnzbd::defaults::iniconf),
-  $home    = hiera('sabnzbd::config::home', $::sabnzbd::defaults::home),
-  $user    = hiera('sabnzbd::config::user', $::sabnzbd::defaults::user),
-  $group   = hiera('sabnzbd::config::group', $::sabnzbd::defaults::group),
-  $apikey  = hiera('sabnzbd::config::apikey', $::sabnzbd::defaults::apikey),
-  $webpass = hiera('sabnzbd::web::password', undef),
+  $sysconf    = hiera('sabnzbd::config::sysconf',
+    $::sabnzbd::defaults::sysconf),
+  $iniconf    = hiera('sabnzbd::config::iniconf',
+    $::sabnzbd::defaults::iniconf),
+  $home       = hiera('sabnzbd::config::home', $::sabnzbd::defaults::home),
+  $user       = hiera('sabnzbd::config::user', $::sabnzbd::defaults::user),
+  $group      = hiera('sabnzbd::config::group', $::sabnzbd::defaults::group),
+  $apikey     = hiera('sabnzbd::config::apikey', $::sabnzbd::defaults::apikey),
+  $webpass    = hiera('sabnzbd::web::password', undef),
+  $ratingkey  = hiera('sabnzbd::retingkey', undef),
 ) inherits sabnzbd::defaults {
   validate_hash($sysconf)
   validate_hash($iniconf)
