@@ -1,6 +1,6 @@
 # Note: you will need to modify the SABnzbd.service file as much of it
 # cannot use vairables
-SABNZBD_HOME=<%= scope.lookupvar('sabnzbd::config::home') %>
+SABNZBD_HOME=<%= scope.lookupvar('sabnzbd::config::sab_home') %>
 
 # User to run SABnzbd as.
 SABNZBD_USER=<%= scope.lookupvar('sabnzbd::config::user') %>
