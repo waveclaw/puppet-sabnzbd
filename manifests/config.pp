@@ -14,7 +14,12 @@ class sabnzbd::config (
   $group      = hiera('sabnzbd::config::group', $::sabnzbd::defaults::group),
   $apikey     = hiera('sabnzbd::config::apikey', $::sabnzbd::defaults::apikey),
   $webpass    = hiera('sabnzbd::web::password', undef),
-  $ratingkey  = hiera('sabnzbd::retingkey', undef),
+  $webuser    = hiera('sabnzbd::web::user', undef),
+  $ratingkey  = hiera('sabnzbd::ratingkey', undef),
+  $nzb_key    = hiera('sabnzbd::nsbkey', undef),
+  $downloadcache = hiera('sabnzbd::downloadcache', undef),
+  $downloadtarget = hiera('sabnzbd::downloadtarget', undef),
+  $servers = hiera('sabnzbd::servers', undef),
 ) inherits sabnzbd::defaults {
   validate_hash($sysconf)
   validate_hash($iniconf)
