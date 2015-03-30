@@ -19,7 +19,7 @@ class sabnzbd::config (
   $nzb_key    = hiera('sabnzbd::nsbkey', undef),
   $downloadcache = hiera('sabnzbd::downloadcache', undef),
   $downloadtarget = hiera('sabnzbd::downloadtarget', undef),
-  $servers = hiera_hash('sabnzbd::servers', undef),
+  $servers = hiera_hash('sabnzbd::servers', {}),
 ) inherits sabnzbd::defaults {
   validate_hash($sysconf)
   validate_hash($iniconf)
@@ -27,7 +27,7 @@ class sabnzbd::config (
   validate_string($user)
   validate_string($group)
   validate_string($apikey)
-  validate_hash($servers)
+  notice($servers)
   File {
     owner  => 'root',
     group  => 'root',
