@@ -37,7 +37,7 @@ quota_period = m
 email_to = ,
 rating_filter_pause_audio = 0
 rss_filenames = 0
-password = <%= scope.function_hiera(['sabnzbd::web::password']) %>
+password = <%= scope.lookupvar('::sabnzbd::config::webpass') %>
 permissions = ""
 quota_day = ""
 auto_disconnect = 1

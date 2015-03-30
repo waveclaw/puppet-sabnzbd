@@ -11,6 +11,7 @@ class sabnzbd::config (
   $user    = hiera('sabnzbd::config::user', $::sabnzbd::defaults::user),
   $group   = hiera('sabnzbd::config::group', $::sabnzbd::defaults::group),
   $apikey  = hiera('sabnzbd::config::apikey', $::sabnzbd::defaults::apikey),
+  $webpass = hiera('sabnzbd::web::password', undef),
 ) inherits sabnzbd::defaults {
   validate_hash($sysconf)
   validate_hash($iniconf)
