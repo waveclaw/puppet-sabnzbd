@@ -13,5 +13,8 @@ class sabnzbd::service (
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
+    start      => '/usr/sbin/stabnzbd start',
+    stop       => '/usr/sbin/stabnzbd stop',
+    status     => '/usr/sbin/stabnzbd status',
   }
 }
