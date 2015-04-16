@@ -2,7 +2,7 @@
 #
 # This class is called from sabnzbd for service config.
 #
-# (The actual sabndbz.ini file is in the profile::mediaserver module)
+#  See the hiera example for recommended data.
 #
 class sabnzbd::config (
   $config_template = undef,

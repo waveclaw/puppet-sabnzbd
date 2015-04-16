@@ -1,21 +1,35 @@
 # == Class: sabnzbd
 #
-# Full description of class sabnzbd here.
+# Configure SABnzbd, a Usenet binary downloader for NZB indexed files
 #
 # === Parameters
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
+# [*repositories*]
+#  The source for pacakges needed by SABnzbd.
+#  hiera value sabnzbd::repo::repos
+#
+# [*services*]
+#  Service(s) to start for SABnzbd.
+#  hiera value sabnzbd::service::services
+#
+# [*packages*]
+#  Packages to install for SABnzbd.
+#  hiera value sabnzbd::install::packages
+#
+# [*config_template*]
+#  Override the configuration template file.
 #
 class sabnzbd (
-  $repositories = hiera('sabnzbd::repositories',
+  $repositories = hiera('sabnzbd::repo::repos',
     sabnzbd::defaults::repos),
-  $services = hiera('sabnzbd::services', sabnzbd::defaults::services),
-  $packages = hiera('sabnzbd::packages', sabnzbd::defaults::services),
+  $services = hiera('sabnzbd::service::services',
+    sabnzbd::defaults::services),
+  $packages = hiera('sabnzbd::install::packages',
+    sabnzbd::defaults::services),
   $config_template = undef,
 ) inherits sabnzbd::defaults {
   class { '::sabnzbd::repo': repositories      => $repositories, } ->
-  class { '::sabnzbd::install': services       => $services, } ->
+  class { '::sabnzbd::install': packages       => $packages, } ->
   class { '::sabnzbd::config': config_template => $config_template, } ~>
   class { '::sabnzbd::service': services       => $services, } ->
   Class['::sabnzbd']
