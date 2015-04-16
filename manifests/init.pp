@@ -8,10 +8,15 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class sabnzbd (
-) {
-  class { '::sabnzbd::repo': } ->
-  class { '::sabnzbd::install': } ->
-  class { '::sabnzbd::config': } ~>
-  class { '::sabnzbd::service': } ->
+  $repositories = hiera('sabnzbd::repositories',
+    sabnzbd::defaults::repos),
+  $services = hiera('sabnzbd::services', sabnzbd::defaults::services),
+  $packages = hiera('sabnzbd::packages', sabnzbd::defaults::services),
+  $config_template = undef,
+) inherits sabnzbd::defaults {
+  class { '::sabnzbd::repo': repositories      => $repositories, } ->
+  class { '::sabnzbd::install': services       => $services, } ->
+  class { '::sabnzbd::config': config_template => $config_template, } ~>
+  class { '::sabnzbd::service': services       => $services, } ->
   Class['::sabnzbd']
 }

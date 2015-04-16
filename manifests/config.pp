@@ -5,6 +5,7 @@
 # (The actual sabndbz.ini file is in the profile::mediaserver module)
 #
 class sabnzbd::config (
+  $config_template = undef,
   $sysconf    = hiera('sabnzbd::config::sysconf',
     $::sabnzbd::defaults::sysconf),
   $iniconf    = hiera('sabnzbd::config::iniconf',
@@ -37,7 +38,9 @@ class sabnzbd::config (
   $confpath = $sysconf['path']
   $confname = $sysconf['file']
   $conf = "${confpath}/${confname}"
-  if has_key($sysconf, 'source') {
+  if $config_template != undef {
+    file { $conf: content => template($config_template), }
+  } elsif has_key($sysconf, 'source') {
     file { $conf: source => $sysconf['source'], }
   } elsif has_key($sysconf, 'template') {
     file { $conf: content => template($sysconf['template']), }
