@@ -21,11 +21,11 @@
 #
 class sabnzbd (
   $repositories = hiera('sabnzbd::repo::repos',
-    sabnzbd::defaults::repos),
-  $services = hiera('sabnzbd::service::services',
-    sabnzbd::defaults::services),
+    $sabnzbd::defaults::repos),
   $packages = hiera('sabnzbd::install::packages',
-    sabnzbd::defaults::services),
+    $sabnzbd::defaults::packages),
+  $services = hiera('sabnzbd::service::services',
+    $sabnzbd::defaults::services),
   $config_template = undef,
 ) inherits sabnzbd::defaults {
   class { '::sabnzbd::repo': repositories      => $repositories, } ->
