@@ -3,17 +3,17 @@
 # This class is called from sabnzbd for setup of repos.
 #
 class sabnzbd::repo(
-  $repositories = hiera('sabnzbd::repo::repos', $::sabnzbd::defaults::repos),
-) inherits sabnzbd::defaults {
+) {
+  $_repo = $sabnzbd::repo_name
   case $::osfamily {
     'Debian': {
-      sabnzbd::repo::ppa { [$repositories]: }
+      sabnzbd::repo::ppa { [$_repo]: }
     }
     'RedHat': {
-      sabnzbd::repo::yum { [$repositories]: }
+      sabnzbd::repo::yum { [$_repo]: }
     }
     'Suse': {
-      sabnzbd::repo::zyp { [$repositories]: }
+      sabnzbd::repo::zyp { [$_repo]: }
     }
     default: { }
   }

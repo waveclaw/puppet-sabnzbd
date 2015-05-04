@@ -4,23 +4,36 @@
 # It sets variables according to platform.
 #
 class sabnzbd::defaults {
-  $apikey = '"check https://localhost:9090/config/general/ for your apikey"'
-  $user = 'sabnzbd'
-  $group = 'sabnzbd'
-  $iniconf = { 'file' => '.sabnzbd.ini', 'path' => '/var/lib/sabnzbd/.config',
-    'template' => 'sabnzbd/sabnzbd.ini.erb' }
+  $user_name           = 'sabnzbd'
+  $group_name          = 'sabnzbd'
+  $user_home           = '/var/lib/sabnzbd'
+  $config_file_path    = "${user_home}/.config"
+  $download_dir        = "${user_home}/Downloads"
+  $incomplete_dir      = "${user_home}/Incomplete"
+  $apikey              =
+    '"check https://localhost:9090/config/general/ for your apikey"'
+  $rating_api_key      =
+    '"check https://localhost:9090/config/general/ for your apikey"'
+  $nzb_key             =
+    '"check https://localhost:9090/config/general/ for your apikey"'
+  $webuser             = undef
+  $webpass             = undef
+  $servers             = undef
   case $::osfamily {
-    'Debian': {
-      $packages = [ 'sabnzbdplus', 'sabnzbdplus-theme-modile']
-      $services = 'sabnzbdplus'
-      $repos    = 'ppa:jcfp/ppa'
-      $sysconf = { 'file' => 'sabnzbdplus', 'path' => '/etc/defaults',
-        'template' => 'sabnzbd/sabnzbdplus.erb' }
-    }
+    # apt::source type is broken
+    #'Ubuntu': {
+    #  $sysconfig_file_path = '/etc/defaults'
+    #  $sysconfig_file_name = 'sabnzbdplus'
+    #  $repo_name = [ 'ppa:jcfp/ppa', ]
+    #  $package_name = [ 'sabnzbdplus', 'sabnzbdplus-theme-mobile']
+    #  $service_name = 'sabnzbdplus'
+    #}
     'RedHat': {
-      $packages = 'sabnzbd'
-      $services = 'sabnzbd'
-      $repos    = [
+      $sysconfig_file_path = '/etc/sysconfig'
+      $sysconfig_file_name = 'sabnzbd'
+      $package_name = 'sabnzbd'
+      $service_name = 'sabnzbd'
+      $repo_name = [
         join([ 'https://dl.dropboxusercontent.com/u/14500830/SABnzbd',
           'RHEL-CentOS', $::os_maj_version], '/'),
         join([ 'http://dl.fedoraproject.org/pub/epel',
@@ -28,21 +41,18 @@ class sabnzbd::defaults {
         join([ 'http://packages.atrpms.net/dist',
           "el${::os_maj_version}",'unrar','' ], '/')
       ]
-      $sysconf = { 'file' => 'sabnzbd', 'path' => '/etc/sysconfig',
-        'template' => 'sabnzbd/sabnzbd.erb' }
     }
     'Suse': {
-      # Push dependencies into package!
-      $packages = 'sabnzbd'
-      $services = 'sabnzbd'
-      $repos    = [
+      $sysconfig_file_path = '/etc/sysconfig'
+      $sysconfig_file_name = 'sabnzbd'
+      $package_name = 'sabnzbd'
+      $service_name = 'sabnzbd'
+      $repo_name = [
         join([ 'http://download.opensuse.org/repositories',
           'Archiving/SLE_12'],'/'),
         join([ 'http://download.opensuse.org/repositories',
           'home:/waveclaw:/HTPC/SLE_12'],'/')
       ]
-      $sysconf = { 'file' => 'sabnzbd', 'path' => '/etc/sysconfig',
-        'template' => 'sabnzbd/sabnzbd.erb' }
     }
     default: {
       fail("${::operatingsystem} not supported")

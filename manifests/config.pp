@@ -2,79 +2,54 @@
 #
 # This class is called from sabnzbd for service config.
 #
-#  See the hiera example for recommended data.
-#
-class sabnzbd::config (
-  $config_template = undef,
-  $sysconf    = hiera('sabnzbd::config::sysconf',
-    $::sabnzbd::defaults::sysconf),
-  $iniconf    = hiera('sabnzbd::config::iniconf',
-    $::sabnzbd::defaults::iniconf),
-  $home       = hiera('sabnzbd::config::home', $::sabnzbd::defaults::home),
-  $user       = hiera('sabnzbd::config::user', $::sabnzbd::defaults::user),
-  $group      = hiera('sabnzbd::config::group', $::sabnzbd::defaults::group),
-  $apikey     = hiera('sabnzbd::config::apikey', $::sabnzbd::defaults::apikey),
-  $webpass    = hiera('sabnzbd::web::password', undef),
-  $webuser    = hiera('sabnzbd::web::user', undef),
-  $ratingkey  = hiera('sabnzbd::ratingkey', undef),
-  $nzb_key    = hiera('sabnzbd::nsbkey', undef),
-  $downloadcache = hiera('sabnzbd::downloadcache', undef),
-  $downloadtarget = hiera('sabnzbd::downloadtarget', undef),
-  $servers = hiera_hash('sabnzbd::servers', {}),
-  $sab_home   = hiera('sabnzbd::home', '/usr/lib/sabnzbd'),
-) inherits sabnzbd::defaults {
-  validate_hash($sysconf)
-  validate_hash($iniconf)
-  validate_string($home)
-  validate_string($user)
-  validate_string($group)
-  validate_string($apikey)
-  notice($servers)
+class sabnzbd::config(
+  $config_file_source       = undef,
+  $config_file_content      = undef,
+  $config_file_template     = undef,
+){
+  $_config_file    = '/var/lib/sabnzbd/.config/sabnzbd.ini'
+  $_apikey         = $sabnzbd::apikey
+  $_rating_api_key = $sabnzbd::rating_api_key
+  $_nzb_key        = $sabnzbd::nzb_key
+  $_webuser        = $sabnzbd::webuser
+  $_webpass        = $sabnzbd::webpass
+  $_incomplete_dir = $sabnzbd::incomplete_dir
+  $_download_dir   = $sabnzbd::download_dir
+  $_servers        = $sabnzbd::servers
+  $_dirs = [
+    '/var/lib/sabnzbd',
+    '/var/lib/sabnzbd/.config',
+    '/var/lib/sabnzbd/logs',
+    $_download_dir,
+    $_incomplete_dir,
+  ]
   File {
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0640',
+    owner  => $sabnzbd::user_name,
+    group  => $sabnzbd::group_name,
+    mode   => '0750',
   }
-  $confpath = $sysconf['path']
-  $confname = $sysconf['file']
-  $conf = "${confpath}/${confname}"
-  if $config_template != undef {
-    file { $conf: content => template($config_template), }
-  } elsif has_key($sysconf, 'source') {
-    file { $conf: source => $sysconf['source'], }
-  } elsif has_key($sysconf, 'template') {
-    file { $conf: content => template($sysconf['template']), }
-  } else {
-    notice('No source for configuration file, none will be used.')
+  file { $_dirs:
+    ensure => directory,
   }
-  # what about $home/sabnzbd.ini ?
-  $pathname = $iniconf['path']
-  file { $pathname:
-    ensure    => directory,
-    owner     => $user,
-    group     => $group,
-    mode      => '0750',
-    show_diff => false,
-  }
-  $basename = $iniconf['file']
-  $inifile = "${pathname}/${basename}"
-  if has_key($iniconf, 'source') {
-    file { $inifile:
-      source    => $iniconf['source'],
-      owner     => $user,
-      group     => $group,
-      mode      => '0600',
-      show_diff => false,
+  if $config_file_source != undef {
+    file { $_config_file:
+      ensure => file,
+      source => $config_file_source,
     }
-  } elsif has_key($iniconf, 'template') {
-    file { $inifile:
-      content   => template($iniconf['template']),
-      owner     => $user,
-      group     => $group,
-      mode      => '0600',
-      show_diff => false,
+  } elsif $config_file_content != undef {
+    file { $_config_file:
+      ensure  => file,
+      content => $config_file_content,
+    }
+  } elsif $config_file_template != undef {
+    file { $_config_file:
+      ensure  => file,
+      content => $config_file_template,
     }
   } else {
-    notice('No source for configuration file, none will be used.')
+    file { $_config_file:
+      ensure  => file,
+      content => template('sabnzbd/sabnzbd.ini.erb'),
+    }
   }
 }

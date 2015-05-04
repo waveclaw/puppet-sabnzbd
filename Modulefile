@@ -1,0 +1,12 @@
+name          'waveclaw-sabnzbd'
+version       '0.1.0'
+source        'https://github.com/sabnzbd/sabnzbd'
+author        'waveclaw'
+license       'Apache 2.0'
+summary       'Sabnzbd Binary Usenet file downloader.'
+description   ''
+project_page  'https://github.com/wavelaw/puppet-sabnzbd/'
+
+dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/apt'
+dependency 'darin/zypprepo', '>= 1.0.2'

@@ -2,19 +2,23 @@
   "name": "waveclaw-sabnzbd",
   "version": "0.1.0",
   "author": "waveclaw",
-  "summary": "Install and configure SABnzbd the Newsgroup Binary Download Daemon.",
+  "summary": "Sabnzbd Binary Usenet file downloader.",
   "license": "Apache 2.0",
-  "source": "ssh://git@stash.waveclaw.net:7999/puppet/sabnzbd.git",
-  "project_page": "https://wiki.waveclaw.net/puppet/sabnzbd",
-  "issues_url": "https://jira.waveclaw.net/puppet/sabnzbd",
+  "source": "https://github.com/sabnzbd/sabnzbd",
+  "project_page": "https://github.com/wavelaw/puppet-sabnzbd/",
+  "issues_url": "https://github.com/sabnzbd/sabnzbd/issues",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
       "version_requirement": ">= 1.0.0"
     },
     {
-      "name": "darin-zypprepo",
-      "version_requirement": ">= 1.0.2"
+      "name": "puppetlabs-apt",
+      "version_requirement": ">= 0.1.0"
+    },
+    {
+      "name": "puppet-zypprepo",
+      "version_requirement": ">= 0.1.0"
     }
   ]
 }
