@@ -44,7 +44,6 @@ describe 'sabnzbd' do
         it { is_expected.to contain_file('/var/lib/sabnzbd/.config/sabnzbd.ini') }
 
         it { is_expected.to contain_service(svc[osfamily.to_sym]) }
-        it { is_expected.to contain_file(confpath[osfamily.to_sym]) }
         it { is_expected.to contain_file(confpath[osfamily.to_sym] + '/' + confile[osfamily.to_sym]) }
         pkg[osfamily.to_sym].each do |pack| 
          it { is_expected.to contain_package(pack).with_ensure('present') }
@@ -119,7 +118,6 @@ describe 'sabnzbd' do
         it { is_expected.to contain_group('baz') }
 
         it { is_expected.to contain_file('/some/where/sabnzbd') }
-        it { is_expected.to contain_file('/some/where') }
         it { is_expected.to contain_file('/up') }
         it { is_expected.to contain_file('/you') }
         if osfamily == 'RedHat'
