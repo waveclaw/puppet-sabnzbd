@@ -25,7 +25,9 @@ class sabnzbd::defaults {
     #  $sysconfig_file_path = '/etc/defaults'
     #  $sysconfig_file_name = 'sabnzbdplus'
     #  $repo_name = [ 'ppa:jcfp/ppa', ]
-    #  $package_name = [ 'sabnzbdplus', 'sabnzbdplus-theme-mobile']
+    #  $package_name = [ 'sabnzbdplus', 'sabnzbdplus-theme-mobile',
+    #  'sabnzbdplus-theme-smpl', 'sabnzbdplus-theme-plush', 
+    #  'sabnzbdplus-theme-iphone', ]
     #  $service_name = 'sabnzbdplus'
     #}
     'RedHat': {

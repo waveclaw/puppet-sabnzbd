@@ -4,7 +4,7 @@
 #
 # === Parameters
 #
-# [*user_name, group_name, use_home*]
+# [*user_name, group_name, user_home*]
 #  User to run service as.  Defaults to sabnzbd.
 #
 # [*repo_name*]
