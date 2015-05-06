@@ -60,7 +60,7 @@ Compatible with RedHat and Suse type Linux Operating Systems.
 
 ## Development
 
-See [Waveclaw.net Software Repository](https://stash.waveclaw.net/projects/PUPPET/repos/sabnzbd)
+You're dipping in it.
 
 ## Release Notes/Contributors/Etc
 
