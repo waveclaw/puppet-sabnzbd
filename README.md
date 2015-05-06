@@ -31,9 +31,9 @@ Uses significant I/O and disk space to process downloaded Usenet binaries.
 
 Opens selected ports on the system firewall.
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
-This module pulls in many packages that may require custom repositories.
+This module pulls packages that require custom repositories.
 
 ### Beginning with sabnzbd
 
@@ -47,10 +47,23 @@ node sab_server.example.net {
    include sabnzdb
 }
 ```
+or add the module to a class and define hiera data to drive it.
+```puppet
+class {'sabnzbd': }
+```
+
+```yaml
+---
+sabnzbd::config::serviers:
+ 'someserver':
+    'a_setting': "a_value"
+```
 
 ## Reference
 
 Includes the standard install, config, service layout.
+
+Also provides for application users, run server configuration files and an example template config file.
 
 ## Limitations
 
