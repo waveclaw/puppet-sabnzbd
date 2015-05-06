@@ -54,7 +54,7 @@ class {'sabnzbd': }
 
 ```yaml
 ---
-sabnzbd::config::serviers:
+sabnzbd::config::servers:
  'someserver':
     'a_setting': "a_value"
 ```
